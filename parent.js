@@ -1,26 +1,20 @@
-let xogtaLocal = JSON.parse(localStorage.getItem("teacher")) || [];
+let xogtaLocal = JSON.parse(localStorage.getItem("parents")) || [];
 let editIndex = null;
 
-// render table
+// renderTable
 function renderTable() {
-  const tbody = document.getElementById("teacherData");
-  tbody.innerHTML = "";
+  document.getElementById("parentsdata").innerHTML = "";
 
-  xogtaLocal.forEach((teacher, index) => {
-    tbody.innerHTML += `
+  xogtaLocal.forEach((parents, index) => {
+    document.getElementById("parentsdata").innerHTML += `
       <tr>
         <td>${index + 1}</td>
-        <td>${teacher.fullname}</td>
-        <td>${teacher.phone}</td>
-        <td>${teacher.gender}</td>
-        <td>${teacher.date}</td>
-        <td>${teacher.email}</td>
-        <td>${teacher.Address}</td>
-        <td>${teacher.Qualicition}</td>
-        <td>${teacher.Subject}</td>
-        <td>${teacher.Hire}</td>
-        <td>${teacher.Employee}</td>
-        <td>${teacher.Salary}</td>
+        <td>${parents.fullname}</td>
+        <td>${parents.phone}</td>
+        <td>${parents.email}</td>
+        <td>${parents.adders}</td>
+        <td>${parents.gender}</td>
+        <td>${parents.action}</td>
         <td>
           <button class="btn btn-sm btn-warning" onclick="editTeacher(${index})">Edit</button>
           <button class="btn btn-sm btn-danger" onclick="deleteTeacher(${index})">Delete</button>
@@ -30,72 +24,62 @@ function renderTable() {
   });
 }
 
-// add or update teacher
+// add parents
 document.getElementById("add").onclick = function () {
-  const teacher = {
-    fullname: document.getElementById("fullname").value,
-    phone: document.getElementById("phone").value,
-    gender: document.getElementById("gender").value,
-    date: document.getElementById("date").value,
-    email: document.getElementById("email").value,
-    Address: document.getElementById("Address").value,
-    Qualicition: document.getElementById("Qualicition").value,
-    Subject: document.getElementById("Subject").value,
-    Hire: document.getElementById("Hire").value,
-    Employee: document.getElementById("Employee").value,
-    Salary: document.getElementById("Salary").value
-  };
+  const fullname = document.getElementById("fullname").value;
+  const phone = document.getElementById("phone").value;
+  const email = document.getElementById("email").value;
+  const adders = document.getElementById("adders").value;
+  const gender = document.getElementById("gender").value;
+  const action = document.getElementById("action").value;
 
-  if (!teacher.fullname || !teacher.phone) {
-    alert("Please enter fullname and phone");
+  // check if not null
+  if (!fullname || !phone || !email || !adders || !gender || !action) {
+    alert("Please full information");
     return;
   }
 
-  if (editIndex === null) {
-    xogtaLocal.push(teacher); // add new
-  } else {
-    xogtaLocal[editIndex] = teacher; // update
+  if (editIndex !== null) {
+    // update xogta
+    xogtaLocal[editIndex] = { fullname, phone, email, adders, gender, action };
     editIndex = null;
-    document.getElementById("add").innerText = "Save";
+  } else {
+    // add xog cusub
+    xogtaLocal.push({ fullname, phone, email, adders, gender, action });
   }
 
-  localStorage.setItem("teacher", JSON.stringify(xogtaLocal));
+  localStorage.setItem("parents", JSON.stringify(xogtaLocal));
   renderTable();
-  clearForm();
+
+  // clear inputs
+  document.getElementById("fullname").value = "";
+  document.getElementById("phone").value = "";
+  document.getElementById("email").value = "";
+  document.getElementById("adders").value = "";
+  document.getElementById("gender").value = "";
+  document.getElementById("action").value = "";
 };
 
-// delete teacher
+// delete parents
 function deleteTeacher(index) {
-  if (confirm("Are you sure you want to delete this record?")) {
+  if (confirm("Ma hubtaa inaad tirtirayso xogtan?")) {
     xogtaLocal.splice(index, 1);
-    localStorage.setItem("teacher", JSON.stringify(xogtaLocal));
+    localStorage.setItem("parents", JSON.stringify(xogtaLocal));
     renderTable();
   }
 }
 
-// edit teacher
+// edit parents
 function editTeacher(index) {
-  const teacher = xogtaLocal[index];
-  document.getElementById("fullname").value = teacher.fullname;
-  document.getElementById("phone").value = teacher.phone;
-  document.getElementById("gender").value = teacher.gender;
-  document.getElementById("date").value = teacher.date;
-  document.getElementById("email").value = teacher.email;
-  document.getElementById("Address").value = teacher.Address;
-  document.getElementById("Qualicition").value = teacher.Qualicition;
-  document.getElementById("Subject").value = teacher.Subject;
-  document.getElementById("Hire").value = teacher.Hire;
-  document.getElementById("Employee").value = teacher.Employee;
-  document.getElementById("Salary").value = teacher.Salary;
+  const parents = xogtaLocal[index];
+  document.getElementById("fullname").value = parents.fullname;
+  document.getElementById("phone").value = parents.phone;
+  document.getElementById("email").value = parents.email;
+  document.getElementById("adders").value = parents.adders;
+  document.getElementById("gender").value = parents.gender;
+  document.getElementById("action").value = parents.action;
 
   editIndex = index;
-  document.getElementById("add").innerText = "Update";
 }
 
-// clear form
-function clearForm() {
-  document.querySelectorAll("input, select").forEach(el => el.value = "");
-}
-
-// load table at start
 renderTable();

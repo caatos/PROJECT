@@ -34,8 +34,8 @@ document.getElementById("add").onclick = function () {
   const Totalstudents = document.getElementById("Totalstudents").value;
   const SubjectAssigned = document.getElementById("SubjectAssigned").value;
 
-  if (!ClassNamed || !Classcode) {
-    alert("Please enter Class Name and Class Code");
+  if (!ClassNamed || !Classcode || !Section || !ClassTeacher || !Totalstudents || !SubjectAssigned) {
+    alert("Please enter full information");
     return;
   }
 
@@ -57,9 +57,11 @@ document.getElementById("add").onclick = function () {
 
 // delete class
 function deleteClass(index) {
-  classesLocal.splice(index, 1);
-  localStorage.setItem("classes", JSON.stringify(classesLocal));
-  renderTable();
+  if (confirm("Ma hubtaa inaad tirtirayso xogtan?")) {
+    classesLocal.splice(index, 1);
+    localStorage.setItem("classes", JSON.stringify(classesLocal));
+    renderTable();
+  }
 }
 
 // edit class

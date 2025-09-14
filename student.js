@@ -51,8 +51,10 @@ document.getElementById("add").onclick = function () {
     Photo: document.getElementById("Photo").value
   };
 
-  if (!student.fullname || !student.phone) {
-    alert("Please enter fullname and phone");
+  if (!student.fullname || !student.phone || !student.gender || !student.date  || !student.email  || !student.Address  || !student.parent  || !student.ParentContact 
+    || !student.AdmisonNumber || !student.ClassAssigned || !student.Employee  || !student.RollNumber  || !student.perivous  || !student.Photo
+  ) {
+    alert("Please enter full informetion");
     return;
   }
 
@@ -71,12 +73,13 @@ document.getElementById("add").onclick = function () {
 
 // delete student
 function deleteStudent(index) {
-  if (confirm("Are you sure you want to delete this record?")) {
+  if (confirm("Ma hubtaa inaad tirtirayso xogtan?")) {
     xogtaLocal.splice(index, 1);
     localStorage.setItem("students", JSON.stringify(xogtaLocal));
     renderTable();
   }
 }
+          
 
 // edit student
 function editStudent(index) {

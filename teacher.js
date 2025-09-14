@@ -65,12 +65,14 @@ let xogtaLocal = JSON.parse(localStorage.getItem("teacher")) || [];
       document.querySelectorAll("input, select").forEach(el => el.value = "");
     };
 
-    // delete teacher
-    function deleteTeacher(index) {
-      xogtaLocal.splice(index, 1);
-      localStorage.setItem("teacher", JSON.stringify(xogtaLocal));
-      renderTable();
-    }
+   // delete parents
+function deleteTeacher(index) {
+  if (confirm("Ma hubtaa inaad tirtirayso xogtan?")) {
+    xogtaLocal.splice(index, 1);
+    localStorage.setItem("teacher", JSON.stringify(xogtaLocal));
+    renderTable();
+  }
+}
 
     // edit teacher
     function editTeacher(index) {
